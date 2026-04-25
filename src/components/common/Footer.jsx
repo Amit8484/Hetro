@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Send, Camera } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -49,15 +49,15 @@ export default function Footer() {
             <div className="flex gap-4">
               <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-red-600">
                 <span className="sr-only">Facebook</span>
-                <Facebook size={24} />
+                <Globe size={24} />
               </a>
               <a href="#" aria-label="Twitter" className="text-gray-400 hover:text-red-600">
                 <span className="sr-only">Twitter</span>
-                <Twitter size={24} />
+                <Send size={24} />
               </a>
               <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-red-600">
                 <span className="sr-only">Instagram</span>
-                <Instagram size={24} />
+                <Camera size={24} />
               </a>
             </div>
           </div>
