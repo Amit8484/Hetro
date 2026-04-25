@@ -1,0 +1,157 @@
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft, AlertCircle, Loader } from 'lucide-react';
+import Navbar from '../../components/common/Navbar';
+import Footer from '../../components/common/Footer';
+import { productService } from '../../services/apiService';
+
+export default function ProductDetails() {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadProduct();
+  }, [id]);
+
+  const loadProduct = async () => {
+    setLoading(true);
+    try {
+      const data = await productService.getProductById(id);
+      setProduct(data);
+    } catch (error) {
+      console.error('Error loading product:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <>
+        <Navbar userType="user" />
+        <div className="flex min-h-screen items-center justify-center">
+          <Loader className="animate-spin" size={32} />
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!product) {
+    return (
+      <>
+        <Navbar userType="user" />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <h1 className="text-2xl font-bold text-lime-600">Product not found</h1>
+          <Link to="/products" className="mt-4 text-blue-600 hover:text-blue-700">
+            Back to Products
+          </Link>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  const productImage = product.image || '/images/hero-bg.avif';
+  const specEntries = Object.entries(product.specifications || {})
+    .filter(([, value]) => value !== undefined && value !== null && value !== '');
+  const categoryLabel = ['Compact', 'Mid-Range', 'Professional', 'Budget', 'Tractors'].includes(product.category)
+    ? 'Tractors'
+    : product.category;
+
+  return (
+    <>
+      <Navbar userType="user" />
+
+      <div className="container mx-auto px-4 py-8">
+        <Link
+          to="/products"
+          className="mb-6 flex items-center gap-2 font-semibold text-lime-600 hover:text-lime-700"
+        >
+          <ArrowLeft size={20} /> Back to Products
+        </Link>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div>
+            <div className="flex h-96 items-center justify-center overflow-hidden rounded-lg bg-gray-200 p-3 md:h-[500px]">
+              <img
+                src={productImage}
+                alt={product.name}
+                className="h-full w-full object-contain object-center"
+              />
+            </div>
+
+            <div className="mt-4 flex gap-2">
+              {[1, 2, 3].map((item) => (
+                <div
+                  key={item}
+                  className="flex h-20 w-20 cursor-pointer items-center justify-center rounded bg-gray-300 hover:opacity-80"
+                >
+                  <img src={productImage} alt="" className="h-full w-full object-contain object-center p-1" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <span className="rounded-full bg-blue-600 px-3 py-1 text-sm font-semibold text-white">
+              {categoryLabel}
+            </span>
+
+            <h1 className="mb-2 mt-4 text-4xl font-bold">{product.name}</h1>
+
+            <div className="mb-6">
+              <h3 className="mb-2 text-lg font-bold">Description</h3>
+              <p className="text-gray-600">{product.description}</p>
+            </div>
+
+
+            <div className="mb-6 rounded-lg border border-lime-200 bg-lime-50 p-4">
+              <p className="text-sm font-semibold text-lime-800">Pricing available on request</p>
+              <p className="mt-1 text-sm text-lime-700">
+                Contact our team for the latest offer, financing support, and delivery options.
+              </p>
+            </div>
+
+            <div className="mb-8 rounded-lg bg-gray-50 p-6">
+              <h3 className="mb-4 text-lg font-bold">Specifications</h3>
+              {specEntries.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {specEntries.map(([key, value]) => (
+                    <div key={key}>
+                      <p className="text-sm text-gray-600">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
+                      <p className="text-xl font-semibold">{String(value)}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-600">Detailed specifications are available on request.</p>
+              )}
+            </div>
+
+            <div className="border-t pt-6">
+              <h3 className="mb-4 font-bold">Why Choose This Product?</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-center gap-2">
+                  <span className="text-lime-600">+</span> High fuel efficiency
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-lime-600">+</span> Low maintenance costs
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-lime-600">+</span> Reliable performance
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-lime-600">+</span> 5-year warranty available
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </>
+  );
+}
