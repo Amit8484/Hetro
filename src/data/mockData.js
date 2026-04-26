@@ -1,44 +1,5 @@
 export const productsData = [
   {
-    id: 16,
-    name: 'Harvester Insurance Assist Plan',
-    image: '/images/products/product-16.jpg',
-    category: 'Insurance',
-    description: 'Flexible monthly financing support for harvester and high-value equipment purchases.',
-    specifications: {
-      planType: 'Equipment Loan',
-      interestRate: '8.75% onwards',
-      tenure: '12-84 months',
-      processingFee: '0.75%'
-    }
-  },
-  {
-    id: 17,
-    name: 'Seasonal Working Capital Cover',
-    image: '/images/products/product-17.jpg',
-    category: 'Insurance',
-    description: 'Short-term seasonal credit line to support fuel, labor, and maintenance during peak cycles.',
-    specifications: {
-      planType: 'Credit Line',
-      interestRate: '9.10% onwards',
-      tenure: '6-18 months',
-      processingFee: '0.50%'
-    }
-  },
-  {
-    id: 18,
-    name: 'Tractor Upgrade Exchange Insurance',
-    image: '/images/products/product-18.jpg',
-    category: 'Insurance',
-    description: 'Exchange and upgrade financing model for faster ownership transition with reduced upfront cost.',
-    specifications: {
-      planType: 'Upgrade Loan',
-      interestRate: '8.40% onwards',
-      tenure: '24-72 months',
-      processingFee: '0.65%'
-    }
-  },
-  {
     id: 19,
     name: 'John Deere 5036D',
     image: '/images/products/product-19.png',
