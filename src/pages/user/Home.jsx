@@ -9,8 +9,13 @@ import { productsData } from '../../data/mockData';
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const featuredProducts = productsData.filter(p => p.category !== 'Parts').slice(0, 3);
-  const allTractors = productsData.filter(p => p.category !== 'Parts');
+  const hiddenHomeProductIds = [16, 17, 18];
+  const featuredProducts = productsData
+    .filter(p => p.category !== 'Parts' && !hiddenHomeProductIds.includes(p.id))
+    .slice(0, 3);
+  const allTractors = productsData.filter(
+    p => p.category !== 'Parts' && !hiddenHomeProductIds.includes(p.id)
+  );
 
   const handleSearch = (e) => {
     e.preventDefault();
