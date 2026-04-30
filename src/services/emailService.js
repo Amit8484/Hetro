@@ -16,6 +16,32 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
  */
 export const sendContactEmail = async (formData) => {
   try {
+    // Validate credentials are set
+    if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY_HERE' || !EMAILJS_PUBLIC_KEY) {
+      console.error('Missing VITE_EMAILJS_PUBLIC_KEY in environment variables');
+      return {
+        success: false,
+        message: 'Email service not configured. Please contact admin.',
+        error: 'Missing public key',
+      };
+    }
+    if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE' || !EMAILJS_SERVICE_ID) {
+      console.error('Missing VITE_EMAILJS_SERVICE_ID in environment variables');
+      return {
+        success: false,
+        message: 'Email service not configured. Please contact admin.',
+        error: 'Missing service ID',
+      };
+    }
+    if (EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID_HERE' || !EMAILJS_TEMPLATE_ID) {
+      console.error('Missing VITE_EMAILJS_TEMPLATE_ID in environment variables');
+      return {
+        success: false,
+        message: 'Email service not configured. Please contact admin.',
+        error: 'Missing template ID',
+      };
+    }
+
     const fullName = formData.name?.trim() || 'No name provided';
     const emailAddress = formData.email?.trim() || 'No email provided';
     const phoneNumber = formData.phone?.trim() || 'No phone provided';
@@ -47,12 +73,19 @@ export const sendContactEmail = async (formData) => {
       to_name: 'SBS Online Use',
     };
 
+    console.log('Sending email with:', { 
+      serviceId: EMAILJS_SERVICE_ID, 
+      templateId: EMAILJS_TEMPLATE_ID,
+      to: templateParams.to_email 
+    });
+
     const response = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_TEMPLATE_ID,
       templateParams
     );
 
+    console.log('Email sent successfully:', response);
     return {
       success: true,
       message: 'Email sent successfully!',
@@ -60,10 +93,28 @@ export const sendContactEmail = async (formData) => {
     };
   } catch (error) {
     console.error('Error sending email:', error);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      text: error.text,
+      status: error.status,
+    });
+
+    // Provide more specific error messages
+    let errorMessage = 'Failed to send email. Please try again later.';
+    
+    if (error.status === 401 || error.message?.includes('authentication')) {
+      errorMessage = 'Authentication failed. Please check your EmailJS credentials.';
+    } else if (error.status === 422 || error.message?.includes('validation')) {
+      errorMessage = 'Email validation error. Please check all fields are filled correctly.';
+    } else if (error.message?.includes('network')) {
+      errorMessage = 'Network error. Please check your internet connection.';
+    }
+
     return {
       success: false,
-      message: 'Failed to send email. Please try again later.',
-      error,
+      message: errorMessage,
+      error: error.message,
     };
   }
 };
