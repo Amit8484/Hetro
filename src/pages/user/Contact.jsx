@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MapPin, Phone, Mail, Send } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 import Footer from '../../components/common/Footer';
+import { sendContactEmail } from '../../services/emailService';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export default function Contact() {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,13 +24,26 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    setLoading(true);
+    setError(null);
+
+    const result = await sendContactEmail(formData);
+
+    if (result.success) {
+      setSubmitted(true);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 3000);
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3000);
+    } else {
+      setError(result.message);
+      setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
+    setLoading(false);
   };
 
   return (
@@ -98,6 +114,12 @@ export default function Contact() {
               </div>
             )}
 
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                ✗ {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold mb-2">Name</label>
@@ -165,9 +187,10 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-lime-600 hover:bg-lime-700 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors duration-200"
+                disabled={loading}
+                className="w-full bg-lime-600 hover:bg-lime-700 disabled:bg-gray-400 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors duration-200"
               >
-                <Send size={20} /> Send Message
+                <Send size={20} /> {loading ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
