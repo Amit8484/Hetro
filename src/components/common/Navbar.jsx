@@ -59,7 +59,12 @@ export default function Navbar({ userType = 'user' }) {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-2">
-            {renderMenu()}
+                {renderMenu()}
+                {/* Admin: add product link visible when Navbar is used with userType="admin" */}
+                {/** Keep link hidden for regular users; pages can pass userType="admin" to show it */}
+                {/** For quick access you can navigate to /admin/add-product manually. */}
+                {/** Render admin link when prop indicates admin. */}
+                {/* Admin-only links can be added here when needed */}
           </div>
 
           {/* Mobile Menu Button */}

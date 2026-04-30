@@ -4,6 +4,7 @@ import Navbar from '../../components/common/Navbar';
 import Footer from '../../components/common/Footer';
 import ProductCard from '../../components/common/ProductCard';
 import LoadingSkeleton from '../../components/common/LoadingSkeleton';
+import ProductForm from '../../components/common/ProductForm';
 import { productService } from '../../services/apiService';
 
 export default function Products() {
@@ -13,6 +14,7 @@ export default function Products() {
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchParams] = useSearchParams();
+  const showProductForm = false;
 
   const categories = ['Tractors', 'Parts', 'Insurance'];
   const tractorSubcategories = ['John Deere', 'Old Tractor', 'Other'];
@@ -109,6 +111,15 @@ export default function Products() {
           <LoadingSkeleton count={6} />
         ) : (
           <>
+            {showProductForm && (
+              <div className="mb-6 rounded-lg border border-lime-200 bg-lime-50 p-4 shadow-sm">
+                <ProductForm
+                  onSuccess={loadProducts}
+                  onCancel={() => {}}
+                />
+              </div>
+            )}
+
             {/* Search Bar */}
             <div className="mb-6 bg-white border border-gray-200 rounded-lg shadow-sm p-4">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Search Products</label>
