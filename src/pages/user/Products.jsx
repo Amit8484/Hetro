@@ -1,31 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Navbar from '../../components/common/Navbar';
 import Footer from '../../components/common/Footer';
 import ProductCard from '../../components/common/ProductCard';
 import LoadingSkeleton from '../../components/common/LoadingSkeleton';
 import ProductForm from '../../components/common/ProductForm';
-import { productService } from '../../services/apiService';
+import { productsData } from '../../data/mockData';
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+  const [products] = useState(() => [...productsData]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(() => searchParams.get('search') || '');
   const showProductForm = false;
 
   const categories = ['Tractors', 'Parts', 'Insurance'];
   const tractorSubcategories = ['John Deere', 'Old Tractor', 'Other'];
   const insuranceSubcategories = ['Tractor', 'Car/Bike', 'Health', 'Gift Item'];
-
-  useEffect(() => {
-    const queryParam = searchParams.get('search');
-    if (queryParam) {
-      setSearchQuery(queryParam);
-    }
-  }, [searchParams]);
 
   const mapCategoryToGroup = (category) => {
     if (['Compact', 'Mid-Range', 'Professional', 'Budget', 'Tractors'].includes(category)) {
@@ -79,22 +71,6 @@ export default function Products() {
 
   const displayedProducts = filterProducts(products);
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  const loadProducts = async () => {
-    setLoading(true);
-    try {
-      const data = await productService.getAllProducts();
-      setProducts(data);
-    } catch (error) {
-      console.error('Error loading products:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <>
       <Navbar userType="user" />
@@ -107,18 +83,12 @@ export default function Products() {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {loading ? (
-          <LoadingSkeleton count={6} />
-        ) : (
-          <>
-            {showProductForm && (
-              <div className="mb-6 rounded-lg border border-lime-200 bg-lime-50 p-4 shadow-sm">
-                <ProductForm
-                  onSuccess={loadProducts}
-                  onCancel={() => {}}
-                />
-              </div>
-            )}
+        <>
+          {showProductForm && (
+            <div className="mb-6 rounded-lg border border-lime-200 bg-lime-50 p-4 shadow-sm">
+              <ProductForm onSuccess={() => {}} onCancel={() => {}} />
+            </div>
+          )}
 
             {/* Search Bar */}
             <div className="mb-6 bg-white border border-gray-200 rounded-lg shadow-sm p-4">
@@ -192,8 +162,7 @@ export default function Products() {
                 </p>
               </div>
             )}
-          </>
-        )}
+        </>
       </div>
 
       <Footer />

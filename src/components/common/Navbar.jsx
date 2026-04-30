@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, LogIn } from 'lucide-react';
 import { useState } from 'react';
 
-export default function Navbar({ userType = 'user' }) {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
