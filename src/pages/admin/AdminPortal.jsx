@@ -1,233 +1,60 @@
-import { useEffect, useMemo, useState } from 'react';
-import Navbar from '../../components/common/Navbar';
-import Footer from '../../components/common/Footer';
-import ProductForm from '../../components/common/ProductForm';
-
-const TABS = {
-  DASHBOARD: 'dashboard',
-  PRODUCTS: 'products'
-};
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-
-const parseErrorMessage = async (response) => {
-  try {
-    const body = await response.json();
-    return body.message || JSON.stringify(body);
-  } catch {
-    return response.statusText || `HTTP ${response.status}`;
-  }
-};
-
-const apiRequest = async (path, options = {}) => {
-  const response = await fetch(`${API_BASE_URL}${path}`, options);
-  if (!response.ok) {
-    throw new Error(await parseErrorMessage(response));
-  }
-
-  if (response.status === 204) {
-    return null;
-  }
-
-  return response.json();
-};
+import { useState } from 'react';
 
 export default function AdminPortal() {
-  const SHOW_ADD_PRODUCT = import.meta.env.VITE_ENABLE_ADD_PRODUCT === 'true';
-  const [activeTab, setActiveTab] = useState(TABS.DASHBOARD);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [editProduct, setEditProduct] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const loadData = async () => {
-    setLoading(true);
-    setError('');
-
-    try {
-      const allProducts = await apiRequest('/api/products');
-      setProducts(allProducts);
-    } catch (err) {
-      setError(err?.message || 'Failed to load admin data');
-    } finally {
-      setLoading(false);
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
   };
-
-  useEffect(() => {
-    // Calling async loader here triggers state updates; allow this
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    loadData();
-  }, []);
-
-  const stats = useMemo(() => ({
-    totalProducts: products.length
-  }), [products]);
-
-  const handleAddClick = () => {
-    setEditProduct(null);
-    setShowForm(true);
-    setActiveTab(TABS.PRODUCTS);
-  };
-
-  const handleEditClick = (product) => {
-    setEditProduct(product);
-    setShowForm(true);
-    setActiveTab(TABS.PRODUCTS);
-  };
-
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm('Delete this product?');
-    if (!confirmed) return;
-
-    try {
-      await apiRequest(`/api/products/${id}`, { method: 'DELETE' });
-      setProducts((prev) => prev.filter((p) => p.id !== id));
-    } catch (err) {
-      alert('Failed to delete product: ' + (err?.message || 'Unknown error'));
-    }
-  };
-
-  const handleSaveSuccess = async (savedProduct) => {
-    if (editProduct?.id) {
-      setProducts((prev) => prev.map((p) => (p.id === savedProduct.id ? savedProduct : p)));
-    } else {
-      setProducts((prev) => [savedProduct, ...prev]);
-    }
-
-    setShowForm(false);
-    setEditProduct(null);
-  };
-
-  // Service requests removed from admin portal; related handlers removed.
 
   return (
-    <>
-      <Navbar />
+    <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/80 shadow-2xl backdrop-blur p-6 md:p-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-center">Admin Login</h1>
+        <p className="text-slate-300 text-sm text-center mt-2">Enter your email and password to continue.</p>
 
-      <div className="bg-slate-900 text-white py-10">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
-            <h1 className="text-3xl font-bold">Admin Portal</h1>
-            <p className="text-slate-300 mt-2">Manage products from one place.</p>
+            <label htmlFor="admin-email" className="block text-sm text-slate-200 mb-2">
+              Email
+            </label>
+            <input
+              id="admin-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@example.com"
+              autoComplete="email"
+              required
+              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            />
           </div>
-          {SHOW_ADD_PRODUCT && (
-            <button
-              type="button"
-              onClick={handleAddClick}
-              className="bg-lime-500 hover:bg-lime-400 text-slate-900 font-semibold px-4 py-2 rounded"
-            >
-              + Add Product
-            </button>
-          )}
-        </div>
-      </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-6 flex flex-wrap gap-2">
+          <div>
+            <label htmlFor="admin-password" className="block text-sm text-slate-200 mb-2">
+              Password
+            </label>
+            <input
+              id="admin-password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              autoComplete="current-password"
+              required
+              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-lime-500"
+            />
+          </div>
+
           <button
-            type="button"
-            onClick={() => setActiveTab(TABS.DASHBOARD)}
-            className={`px-4 py-2 rounded ${activeTab === TABS.DASHBOARD ? 'bg-lime-700 text-white' : 'bg-gray-100'}`}
+            type="submit"
+            className="w-full rounded-lg bg-lime-500 hover:bg-lime-400 text-slate-900 font-semibold py-2.5 transition-colors duration-200"
           >
-            Dashboard
+            Sign In
           </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab(TABS.PRODUCTS)}
-            className={`px-4 py-2 rounded ${activeTab === TABS.PRODUCTS ? 'bg-lime-700 text-white' : 'bg-gray-100'}`}
-          >
-            Products
-          </button>
-          
-        </div>
-
-        {loading && <p className="text-gray-600">Loading admin data...</p>}
-        {!loading && error && <p className="text-red-600">{error}</p>}
-
-        {!loading && !error && activeTab === TABS.DASHBOARD && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <StatCard title="Total Products" value={stats.totalProducts} />
-          </div>
-        )}
-
-        {!loading && !error && activeTab === TABS.PRODUCTS && (
-          <div className="space-y-4">
-            {showForm && (
-              <div className="rounded-lg border border-lime-200 bg-lime-50 p-4">
-                <h2 className="text-xl font-semibold mb-3">
-                  {editProduct ? 'Edit Product' : 'Add Product'}
-                </h2>
-                <ProductForm
-                  initial={editProduct || {}}
-                  useBackend
-                  onSuccess={handleSaveSuccess}
-                  onCancel={() => {
-                    setShowForm(false);
-                    setEditProduct(null);
-                  }}
-                />
-              </div>
-            )}
-
-            <div className="overflow-x-auto border rounded-lg">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="text-left p-3">ID</th>
-                    <th className="text-left p-3">Name</th>
-                    <th className="text-left p-3">Category</th>
-                    <th className="text-left p-3">Subcategory</th>
-                    <th className="text-left p-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id} className="border-t">
-                      <td className="p-3">{product.id}</td>
-                      <td className="p-3 font-medium">{product.name}</td>
-                      <td className="p-3">{product.category}</td>
-                      <td className="p-3">{product.subcategory || '-'}</td>
-                      <td className="p-3">
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => handleEditClick(product)}
-                            className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(product.id)}
-                            className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* Service requests feature removed from admin portal */}
+        </form>
       </div>
-
-      <Footer />
-    </>
-  );
-}
-
-function StatCard({ title, value }) {
-  return (
-    <div className="rounded-lg border bg-white p-5 shadow-sm">
-      <p className="text-sm text-gray-500">{title}</p>
-      <p className="text-3xl font-bold text-gray-900 mt-1">{value}</p>
     </div>
   );
 }
