@@ -5,11 +5,9 @@ import ProductForm from '../../components/common/ProductForm';
 
 const TABS = {
   DASHBOARD: 'dashboard',
-  PRODUCTS: 'products',
-  REQUESTS: 'requests'
+  PRODUCTS: 'products'
 };
 
-const STATUS_OPTIONS = ['Pending', 'In Progress', 'Completed'];
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const parseErrorMessage = async (response) => {
@@ -37,7 +35,6 @@ const apiRequest = async (path, options = {}) => {
 export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState(TABS.DASHBOARD);
   const [products, setProducts] = useState([]);
-  const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -48,13 +45,8 @@ export default function AdminPortal() {
     setError('');
 
     try {
-      const [allProducts, allRequests] = await Promise.all([
-        apiRequest('/api/products'),
-        apiRequest('/api/service-requests')
-      ]);
-
+      const allProducts = await apiRequest('/api/products');
       setProducts(allProducts);
-      setRequests(allRequests);
     } catch (err) {
       setError(err?.message || 'Failed to load admin data');
     } finally {
@@ -63,22 +55,14 @@ export default function AdminPortal() {
   };
 
   useEffect(() => {
+    // Calling async loader here triggers state updates; allow this
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadData();
   }, []);
 
-  const stats = useMemo(() => {
-    const pendingRequests = requests.filter((req) => req.status === 'Pending').length;
-    const inProgressRequests = requests.filter((req) => req.status === 'In Progress').length;
-    const completedRequests = requests.filter((req) => req.status === 'Completed').length;
-
-    return {
-      totalProducts: products.length,
-      totalRequests: requests.length,
-      pendingRequests,
-      inProgressRequests,
-      completedRequests
-    };
-  }, [products, requests]);
+  const stats = useMemo(() => ({
+    totalProducts: products.length
+  }), [products]);
 
   const handleAddClick = () => {
     setEditProduct(null);
@@ -115,18 +99,7 @@ export default function AdminPortal() {
     setEditProduct(null);
   };
 
-  const handleRequestStatusChange = async (requestId, nextStatus) => {
-    try {
-      const updated = await apiRequest(`/api/service-requests/${requestId}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: nextStatus })
-      });
-      setRequests((prev) => prev.map((req) => (req.id === updated.id ? updated : req)));
-    } catch (err) {
-      alert('Failed to update status: ' + (err?.message || 'Unknown error'));
-    }
-  };
+  // Service requests removed from admin portal; related handlers removed.
 
   return (
     <>
@@ -136,7 +109,7 @@ export default function AdminPortal() {
         <div className="container mx-auto px-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold">Admin Portal</h1>
-            <p className="text-slate-300 mt-2">Manage products and service requests from one place.</p>
+            <p className="text-slate-300 mt-2">Manage products from one place.</p>
           </div>
           <button
             type="button"
@@ -164,13 +137,7 @@ export default function AdminPortal() {
           >
             Products
           </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab(TABS.REQUESTS)}
-            className={`px-4 py-2 rounded ${activeTab === TABS.REQUESTS ? 'bg-lime-700 text-white' : 'bg-gray-100'}`}
-          >
-            Service Requests
-          </button>
+          
         </div>
 
         {loading && <p className="text-gray-600">Loading admin data...</p>}
@@ -179,10 +146,6 @@ export default function AdminPortal() {
         {!loading && !error && activeTab === TABS.DASHBOARD && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <StatCard title="Total Products" value={stats.totalProducts} />
-            <StatCard title="Total Requests" value={stats.totalRequests} />
-            <StatCard title="Pending Requests" value={stats.pendingRequests} />
-            <StatCard title="In Progress" value={stats.inProgressRequests} />
-            <StatCard title="Completed" value={stats.completedRequests} />
           </div>
         )}
 
@@ -249,46 +212,7 @@ export default function AdminPortal() {
           </div>
         )}
 
-        {!loading && !error && activeTab === TABS.REQUESTS && (
-          <div className="overflow-x-auto border rounded-lg">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="text-left p-3">ID</th>
-                  <th className="text-left p-3">Customer</th>
-                  <th className="text-left p-3">Model</th>
-                  <th className="text-left p-3">Service</th>
-                  <th className="text-left p-3">Priority</th>
-                  <th className="text-left p-3">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {requests.map((req) => (
-                  <tr key={req.id} className="border-t">
-                    <td className="p-3">{req.id}</td>
-                    <td className="p-3 font-medium">{req.customerName}</td>
-                    <td className="p-3">{req.tractorModel}</td>
-                    <td className="p-3">{req.service}</td>
-                    <td className="p-3">{req.priority}</td>
-                    <td className="p-3">
-                      <select
-                        value={req.status}
-                        onChange={(e) => handleRequestStatusChange(req.id, e.target.value)}
-                        className="px-2 py-1 border rounded"
-                      >
-                        {STATUS_OPTIONS.map((status) => (
-                          <option key={status} value={status}>
-                            {status}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {/* Service requests feature removed from admin portal */}
       </div>
 
       <Footer />

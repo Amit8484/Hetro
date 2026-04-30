@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { productService } from '../../services/apiService';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
 // Reusable product form component.
 // Props:
 // - onSuccess(product): called after successful add
@@ -70,10 +72,10 @@ export default function ProductForm({ onSuccess, onCancel, initial = {}, useBack
 
     try {
       if (useBackend) {
-        // POST to backend API. Adjust host/port if your backend runs elsewhere.
+        // POST to backend API using configured base URL.
         const apiUrl = isEditMode
-          ? `http://localhost:8080/api/products/${initial.id}`
-          : 'http://localhost:8080/api/products';
+          ? `${API_BASE_URL}/api/products/${initial.id}`
+          : `${API_BASE_URL}/api/products`;
         const res = await fetch(apiUrl, {
           method: isEditMode ? 'PUT' : 'POST',
           headers: { 'Content-Type': 'application/json' },
