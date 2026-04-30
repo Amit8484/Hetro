@@ -33,6 +33,7 @@ const apiRequest = async (path, options = {}) => {
 };
 
 export default function AdminPortal() {
+  const SHOW_ADD_PRODUCT = import.meta.env.VITE_ENABLE_ADD_PRODUCT === 'true';
   const [activeTab, setActiveTab] = useState(TABS.DASHBOARD);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -111,13 +112,15 @@ export default function AdminPortal() {
             <h1 className="text-3xl font-bold">Admin Portal</h1>
             <p className="text-slate-300 mt-2">Manage products from one place.</p>
           </div>
-          <button
-            type="button"
-            onClick={handleAddClick}
-            className="bg-lime-500 hover:bg-lime-400 text-slate-900 font-semibold px-4 py-2 rounded"
-          >
-            + Add Product
-          </button>
+          {SHOW_ADD_PRODUCT && (
+            <button
+              type="button"
+              onClick={handleAddClick}
+              className="bg-lime-500 hover:bg-lime-400 text-slate-900 font-semibold px-4 py-2 rounded"
+            >
+              + Add Product
+            </button>
+          )}
         </div>
       </div>
 
