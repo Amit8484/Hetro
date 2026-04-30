@@ -11,20 +11,29 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadProduct();
-  }, [id]);
+    let isMounted = true;
 
-  const loadProduct = async () => {
-    setLoading(true);
-    try {
-      const data = await productService.getProductById(id);
-      setProduct(data);
-    } catch (error) {
-      console.error('Error loading product:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchProduct = async () => {
+      try {
+        const data = await productService.getProductById(id);
+        if (isMounted) {
+          setProduct(data);
+        }
+      } catch (error) {
+        console.error('Error loading product:', error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchProduct();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   if (loading) {
     return (

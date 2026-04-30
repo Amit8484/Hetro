@@ -6,8 +6,11 @@ import { productService } from '../../services/apiService';
 // - onSuccess(product): called after successful add
 // - onCancel(): optional cancel handler
 // - initial?: initial product object for editing (optional)
-// - useBackend?: boolean - if true, POSTs to backend endpoint (not implemented here)
-export default function ProductForm({ onSuccess, onCancel, initial = {}, useBackend = false }) {
+// - useBackend?: boolean - if true, uses backend product API
+// - existingProducts?: optional list used to prefill form
+export default function ProductForm({ onSuccess, onCancel, initial = {}, useBackend = false, existingProducts = [] }) {
+  const isEditMode = Boolean(initial && initial.id);
+
   const [form, setForm] = useState({
     name: initial.name || '',
     image: initial.image || '',
@@ -21,6 +24,25 @@ export default function ProductForm({ onSuccess, onCancel, initial = {}, useBack
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((s) => ({ ...s, [name]: value }));
+  };
+
+  const handleExistingProductChange = (e) => {
+    const selectedId = Number(e.target.value);
+    if (!selectedId) return;
+
+    const selectedProduct = existingProducts.find((p) => p.id === selectedId);
+    if (!selectedProduct) return;
+
+    setForm({
+      name: selectedProduct.name || '',
+      image: selectedProduct.image || '',
+      category: selectedProduct.category || '',
+      subcategory: selectedProduct.subcategory || '',
+      description: selectedProduct.description || '',
+      specificationsText: selectedProduct.specifications
+        ? JSON.stringify(selectedProduct.specifications, null, 2)
+        : ''
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -49,9 +71,11 @@ export default function ProductForm({ onSuccess, onCancel, initial = {}, useBack
     try {
       if (useBackend) {
         // POST to backend API. Adjust host/port if your backend runs elsewhere.
-        const apiUrl = 'http://localhost:8080/api/products';
+        const apiUrl = isEditMode
+          ? `http://localhost:8080/api/products/${initial.id}`
+          : 'http://localhost:8080/api/products';
         const res = await fetch(apiUrl, {
-          method: 'POST',
+          method: isEditMode ? 'PUT' : 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
@@ -71,8 +95,10 @@ export default function ProductForm({ onSuccess, onCancel, initial = {}, useBack
         if (onSuccess) onSuccess(created);
       } else {
         // Default behaviour: use frontend demo store via productService
-        const created = await productService.addProduct(payload);
-        if (onSuccess) onSuccess(created);
+        const saved = isEditMode
+          ? await productService.updateProduct(initial.id, payload)
+          : await productService.addProduct(payload);
+        if (onSuccess) onSuccess(saved);
       }
     } catch (err) {
       console.error('Failed to save product', err);
@@ -84,6 +110,22 @@ export default function ProductForm({ onSuccess, onCancel, initial = {}, useBack
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3 bg-white p-4 rounded shadow-sm">
+      {existingProducts.length > 0 && (
+        <div>
+          <label className="block text-sm font-medium">Load Existing Product</label>
+          <select defaultValue="" onChange={handleExistingProductChange} className="w-full px-2 py-2 border rounded">
+            <option value="">Select a product to auto-fill</option>
+            {[...existingProducts]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name}
+                </option>
+              ))}
+          </select>
+        </div>
+      )}
+
       <div>
         <label className="block text-sm font-medium">Name</label>
         <input name="name" value={form.name} onChange={handleChange} required
@@ -124,7 +166,7 @@ export default function ProductForm({ onSuccess, onCancel, initial = {}, useBack
       <div className="flex items-center gap-2">
         <button type="submit" disabled={loading}
           className="px-3 py-2 bg-lime-700 text-white rounded disabled:opacity-60">
-          {loading ? 'Saving...' : 'Save Product'}
+          {loading ? 'Saving...' : isEditMode ? 'Update Product' : 'Save Product'}
         </button>
         {onCancel && (
           <button type="button" onClick={onCancel} className="px-3 py-2 border rounded">Cancel</button>

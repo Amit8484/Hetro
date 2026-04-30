@@ -37,6 +37,12 @@ export default function Navbar() {
         >
           Contact
         </Link>
+        <Link
+          to="/admin"
+          className={`px-4 py-2 rounded ${isActive('/admin') ? 'bg-lime-600 text-white' : 'hover:bg-gray-700'}`}
+        >
+          Admin
+        </Link>
         <div className="hidden md:flex gap-2 ml-4 border-l border-gray-700 pl-4">
           <Link
             to="/partner/login"
