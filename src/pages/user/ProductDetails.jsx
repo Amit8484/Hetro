@@ -70,9 +70,7 @@ export default function ProductDetails() {
   const productImage = activeImage || productImages[0];
   const specEntries = Object.entries(product.specifications || {})
     .filter(([, value]) => value !== undefined && value !== null && value !== '');
-  const categoryLabel = ['Compact', 'Mid-Range', 'Professional', 'Budget', 'Tractors'].includes(product.category)
-    ? 'Tractors'
-    : product.category;
+  
 
   return (
     <>
@@ -114,10 +112,6 @@ export default function ProductDetails() {
           </div>
 
           <div>
-            <span className="rounded-full bg-blue-600 px-3 py-1 text-sm font-semibold text-white">
-              {categoryLabel}
-            </span>
-
             <h1 className="mb-2 mt-4 text-4xl font-bold">{product.name}</h1>
 
             <div className="mb-6">
