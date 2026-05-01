@@ -268,6 +268,33 @@ export const productsData = [
       ptoOption: 'Dual',
       clutch: 'Single'
     }
+  },
+  {
+    id: 37,
+    name: 'Rotary Tiller - Rotavator',
+    image: '/images/products/rotavator/rotavator_page-0001.jpg',
+    images: [
+      '/images/products/rotavator/rotavator_page-0001.jpg',
+      '/images/products/rotavator/rotavator_page-0002.jpg',
+      '/images/products/rotavator/rotavator_page-0003.jpg',
+      '/images/products/rotavator/rotavator_page-0004.jpg',
+      '/images/products/rotavator/rotavator_page-0005.jpg'
+    ],
+    category: 'Tractors',
+    subcategory: 'Implement',
+    description: 'Paddy Special Rotary Tiller — a lightweight puddling rotary tiller efficient for preparing seedbeds in paddy. Improves incorporation of weeds and residues, includes adjustable skid to protect against mud, and offers higher productivity with lower fuel consumption.',
+    specifications: {
+      workingWidthMM: 1650,
+      rotorSpeedRPM_at_540PTO: 215,
+      numberOfBlades: 48,
+      bladeType: 'C Type',
+      pto: 'Safety limiter and shear bolt',
+      workingDepthMM: '100-152',
+      weightKG: 314,
+      sideDrive: 'Gear',
+      gearBoxPosition: 'Offset-100 mm',
+      suitableTractors: '5036 D, 5039 D, 5042 D, 5045 D, 5050 D, 5105, 5205, 5305 D, 5050 E'
+    }
   }
 ];
 

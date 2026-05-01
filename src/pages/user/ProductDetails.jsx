@@ -9,6 +9,7 @@ export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeImage, setActiveImage] = useState('');
 
   useEffect(() => {
     let isMounted = true;
@@ -18,6 +19,7 @@ export default function ProductDetails() {
         const data = await productService.getProductById(id);
         if (isMounted) {
           setProduct(data);
+          setActiveImage(data?.images?.[0] || data?.image || '/images/hero-bg.avif');
         }
       } catch (error) {
         console.error('Error loading product:', error);
@@ -62,7 +64,10 @@ export default function ProductDetails() {
     );
   }
 
-  const productImage = product.image || '/images/hero-bg.avif';
+  const productImages = (Array.isArray(product.images) && product.images.length > 0)
+    ? product.images
+    : [product.image || '/images/hero-bg.avif'];
+  const productImage = activeImage || productImages[0];
   const specEntries = Object.entries(product.specifications || {})
     .filter(([, value]) => value !== undefined && value !== null && value !== '');
   const categoryLabel = ['Compact', 'Mid-Range', 'Professional', 'Budget', 'Tractors'].includes(product.category)
@@ -91,14 +96,19 @@ export default function ProductDetails() {
               />
             </div>
 
-            <div className="mt-4 flex gap-2">
-              {[1, 2, 3].map((item) => (
-                <div
-                  key={item}
-                  className="flex h-20 w-20 cursor-pointer items-center justify-center rounded bg-gray-300 hover:opacity-80"
+            <div className="mt-4 flex flex-wrap gap-2">
+              {productImages.map((image, index) => (
+                <button
+                  key={image}
+                  type="button"
+                  onClick={() => setActiveImage(image)}
+                  className={`flex h-20 w-20 items-center justify-center overflow-hidden rounded border bg-gray-100 transition-opacity hover:opacity-90 ${
+                    image === productImage ? 'border-lime-600 ring-2 ring-lime-200' : 'border-gray-300'
+                  }`}
+                  aria-label={`View image ${index + 1} of ${product.name}`}
                 >
-                  <img src={productImage} alt="" className="h-full w-full object-contain object-center p-1" />
-                </div>
+                  <img src={image} alt="" className="h-full w-full object-contain object-center p-1" />
+                </button>
               ))}
             </div>
           </div>
@@ -117,10 +127,8 @@ export default function ProductDetails() {
 
 
             <div className="mb-6 rounded-lg border border-lime-200 bg-lime-50 p-4">
-              <p className="text-sm font-semibold text-lime-800">Pricing available on request</p>
-              <p className="mt-1 text-sm text-lime-700">
-                Contact our team for the latest offer, financing support, and delivery options.
-              </p>
+              <p className="text-sm font-semibold text-lime-800">Price</p>
+              <p className="mt-1 text-2xl font-bold text-lime-900">₹ 135,000.00</p>
             </div>
 
             <div className="mb-8 rounded-lg bg-gray-50 p-6">
@@ -137,24 +145,6 @@ export default function ProductDetails() {
               ) : (
                 <p className="text-gray-600">Detailed specifications are available on request.</p>
               )}
-            </div>
-
-            <div className="border-t pt-6">
-              <h3 className="mb-4 font-bold">Why Choose This Product?</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-center gap-2">
-                  <span className="text-lime-600">+</span> High fuel efficiency
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lime-600">+</span> Low maintenance costs
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lime-600">+</span> Reliable performance
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-lime-600">+</span> 5-year warranty available
-                </li>
-              </ul>
             </div>
           </div>
         </div>

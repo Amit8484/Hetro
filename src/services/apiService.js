@@ -53,11 +53,17 @@ const ensureProductSeedCoverage = () => {
     const existingImage = String(existingProduct.image || '').trim();
     const hasMissingImage = existingImage === '';
     const hasExternalImage = /^https?:\/\//i.test(existingImage);
+    const seedImages = Array.isArray(seedProduct.images) ? seedProduct.images : [];
+    const existingImages = Array.isArray(existingProduct.images) ? existingProduct.images : [];
+    const hasMissingGallery = seedImages.length > 0 && existingImages.length === 0;
+    const hasStaleGallery = seedImages.length > 0 && JSON.stringify(existingImages) !== JSON.stringify(seedImages);
+    const hasStaleCover = existingImage !== String(seedProduct.image || '').trim();
 
-    if (hasMissingImage || hasExternalImage) {
+    if (hasMissingImage || hasExternalImage || hasMissingGallery || hasStaleGallery || hasStaleCover) {
       return {
         ...existingProduct,
-        image: seedProduct.image
+        image: seedProduct.image,
+        images: seedProduct.images
       };
     }
 
