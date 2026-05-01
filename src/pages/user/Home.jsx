@@ -69,7 +69,7 @@ export default function Home() {
       <Navbar />
 
       {rotavatorProduct && (
-        <section className="py-10 md:py-14 bg-gradient-to-br from-amber-50 via-white to-lime-50">
+        <section className="py-10 md:py-14 bg-white">
           <div className="container mx-auto px-4">
             <div className="overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-2xl">
               <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -117,13 +117,12 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="relative min-h-[320px] bg-gradient-to-br from-slate-900 via-emerald-900 to-lime-900 p-6 md:p-8 flex flex-col items-center justify-center">
-                  <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_top_left,_rgba(163,230,53,0.55),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.18),_transparent_28%)] pointer-events-none"></div>
-                  <div className="relative w-full max-w-md rounded-3xl bg-white/10 p-4 backdrop-blur-md border border-white/15 shadow-2xl">
+                <div className="relative min-h-[320px] bg-white p-6 md:p-8 flex items-center justify-center">
+                  <div className="relative w-full max-w-md rounded-3xl bg-white p-4 border border-gray-200 shadow-2xl">
                     <img
                       src={rotavatorProduct.images?.[offerImageIndex] || rotavatorProduct.image || '/images/products/rotavator/rotavator_page-0001.jpg'}
                       alt={rotavatorProduct.name}
-                      className="h-[320px] w-full rounded-2xl object-contain object-center bg-white/90 p-3"
+                      className="h-[320px] w-full rounded-2xl object-contain object-center p-3"
                     />
                   </div>
 
