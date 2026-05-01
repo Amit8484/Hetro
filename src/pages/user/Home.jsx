@@ -71,11 +71,15 @@ export default function Home() {
       {rotavatorProduct && (
         <section className="py-10 md:py-14 bg-white">
           <div className="container mx-auto px-4">
-            <div className="overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-2xl">
+            <div className="overflow-hidden rounded-3xl border border-amber-200 bg-transparent shadow-2xl">
               <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="p-8 md:p-10 lg:p-12 flex flex-col justify-center">
+                <div className="p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-amber-50 lg:rounded-l-3xl rounded-t-3xl">
                   <div className="inline-flex w-fit items-center gap-2 rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-800">
                     Limited Time Offer
+                  </div>
+
+                  <div className="mt-4 text-2xl md:text-3xl lg:text-4xl font-extrabold text-amber-800 leading-tight">
+                    Subsidy Available
                   </div>
                   <h1 className="mt-5 text-3xl md:text-5xl font-black text-gray-900">
                     Rotary Tiller - Rotavator
@@ -117,40 +121,41 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="relative min-h-[320px] bg-white p-6 md:p-8 flex items-center justify-center">
-                  <div className="relative w-full max-w-md rounded-3xl bg-white p-4 border border-gray-200 shadow-2xl">
+                <div className="relative min-h-[320px] bg-gradient-to-br from-slate-900 via-emerald-900 to-lime-900 p-6 md:p-8 flex items-center justify-center lg:rounded-r-3xl rounded-b-3xl">
+                  <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_top_left,_rgba(163,230,53,0.55),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.18),_transparent_28%)] pointer-events-none"></div>
+                  <div className="w-full max-w-md flex flex-col items-center">
                     <img
                       src={rotavatorProduct.images?.[offerImageIndex] || rotavatorProduct.image || '/images/products/rotavator/rotavator_page-0001.jpg'}
                       alt={rotavatorProduct.name}
-                      className="h-[320px] w-full rounded-2xl object-contain object-center p-3"
+                      className="h-[320px] w-full rounded-2xl object-contain object-center"
                     />
-                  </div>
 
-                  {rotavatorProduct.images && rotavatorProduct.images.length > 1 && (
-                    <div className="flex gap-3 mt-6 items-center justify-center">
-                      <button
-                        onClick={() => setOfferImageIndex((prev) => (prev === 0 ? rotavatorProduct.images.length - 1 : prev - 1))}
-                        className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all"
-                      >
-                        <ChevronLeft size={20} />
-                      </button>
-                      <div className="flex gap-2">
-                        {rotavatorProduct.images.map((_, index) => (
-                          <button
-                            key={index}
-                            onClick={() => setOfferImageIndex(index)}
-                            className={`w-2 h-2 rounded-full transition-all ${index === offerImageIndex ? 'bg-white w-6' : 'bg-white/50'}`}
-                          />
-                        ))}
+                    {rotavatorProduct.images && rotavatorProduct.images.length > 1 && (
+                      <div className="flex gap-3 mt-4 items-center justify-center w-full">
+                        <button
+                          onClick={() => setOfferImageIndex((prev) => (prev === 0 ? rotavatorProduct.images.length - 1 : prev - 1))}
+                          className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all"
+                        >
+                          <ChevronLeft size={20} />
+                        </button>
+                        <div className="flex gap-2">
+                          {rotavatorProduct.images.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setOfferImageIndex(index)}
+                              className={`w-2 h-2 rounded-full transition-all ${index === offerImageIndex ? 'bg-white w-6' : 'bg-white/50'}`}
+                            />
+                          ))}
+                        </div>
+                        <button
+                          onClick={() => setOfferImageIndex((prev) => (prev === rotavatorProduct.images.length - 1 ? 0 : prev + 1))}
+                          className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all"
+                        >
+                          <ChevronRight size={20} />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => setOfferImageIndex((prev) => (prev === rotavatorProduct.images.length - 1 ? 0 : prev + 1))}
-                        className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all"
-                      >
-                        <ChevronRight size={20} />
-                      </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
