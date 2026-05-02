@@ -5,6 +5,7 @@ import Home from '../pages/user/Home';
 import About from '../pages/user/About';
 import Products from '../pages/user/Products';
 import ProductDetails from '../pages/user/ProductDetails';
+import Reviews from '../pages/user/Reviews';
 import Contact from '../pages/user/Contact';
 import PartnerLogin from '../pages/partner/PartnerLogin';
 import AdminPortal from '../pages/admin/AdminPortal';
@@ -18,6 +19,7 @@ export default function AppRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/reviews" element={<Reviews />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/partner/login" element={<PartnerLogin />} />
         <Route path="/admin" element={<AdminPortal />} />

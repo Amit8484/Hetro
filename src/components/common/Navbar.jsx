@@ -32,6 +32,12 @@ export default function Navbar() {
           About
         </Link>
         <Link
+          to="/reviews"
+          className={`px-4 py-2 rounded ${isActive('/reviews') ? 'bg-lime-600 text-white' : 'hover:bg-gray-700'}`}
+        >
+          Reviews
+        </Link>
+        <Link
           to="/contact"
           className={`px-4 py-2 rounded ${isActive('/contact') ? 'bg-lime-600 text-white' : 'hover:bg-gray-700'}`}
         >
