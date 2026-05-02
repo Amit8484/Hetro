@@ -1,6 +1,6 @@
 ﻿import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Shield, Star, Truck, Wrench, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, CheckCircle, ExternalLink, PlayCircle, Shield, Star, Truck, Wrench, ChevronLeft, ChevronRight } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 import Footer from '../../components/common/Footer';
 import ProductCard from '../../components/common/ProductCard';
@@ -10,6 +10,11 @@ export default function Home() {
   const rotavatorProduct = productsData.find((product) => product.id === 37);
   const featuredProducts = productsData.slice(0, 3);
   const allTractors = productsData.filter((product) => product.category === 'Tractors').slice(0, 6);
+  const reviewVideos = [
+    { videoId: '8V1k2vr-IYU', title: 'John Deere Tractor Overview' },
+    { videoId: 'LoI_PF8JNr4', title: 'Rotavator Working Demo' },
+    { videoId: 'kMiYR2GHs_o', title: 'Farm Equipment Customer Review' }
+  ];
 
   const [timeLeft, setTimeLeft] = useState({
     days: 7,
@@ -240,6 +245,56 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-24 container mx-auto px-4 fade-in">
+        <div className="text-center mb-16 slide-up">
+          <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-5 py-2 rounded-full text-sm font-bold mb-6">
+            <PlayCircle className="h-4 w-4" />
+            REVIEW VIDEOS
+          </div>
+          <h2 className="text-3xl md:text-4xl font-black mb-6 text-gray-900">Watch Product Reviews</h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto font-light">
+            A few quick video reviews are featured here, and you can see the full collection on the Reviews page.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {reviewVideos.map((video) => (
+            <article key={video.videoId} className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+              <div className="relative w-full bg-black" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute inset-0 h-full w-full"
+                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                  title={video.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-gray-900">{video.title}</h3>
+                <a
+                  href={`https://youtu.be/${video.videoId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 font-semibold text-white transition-colors hover:bg-red-700"
+                >
+                  Watch on YouTube <ExternalLink size={18} />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link
+            to="/reviews"
+            className="inline-flex items-center gap-2 rounded-xl border border-lime-600 px-6 py-3 font-bold text-lime-700 transition-colors hover:bg-lime-50"
+          >
+            View All Reviews
+          </Link>
         </div>
       </section>
 
