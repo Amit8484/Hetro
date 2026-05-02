@@ -57,11 +57,6 @@ export default function Home() {
       title: 'Assured Quality',
       desc: 'Genuine products with reliable service support.'
     },
-    {
-      icon: <Star className="w-8 h-8" />,
-      title: 'Tailored Quotes',
-      desc: 'Quick pricing guidance for tractors and implements.'
-    }
   ];
 
   return (
