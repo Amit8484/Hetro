@@ -120,10 +120,12 @@ export default function ProductDetails() {
             </div>
 
 
-            <div className="mb-6 rounded-lg border border-lime-200 bg-lime-50 p-4">
-              <p className="text-sm font-semibold text-lime-800">Price</p>
-              <p className="mt-1 text-2xl font-bold text-lime-900">₹ 135,000.00</p>
-            </div>
+            {product.price && (
+              <div className="mb-6 rounded-lg border border-lime-200 bg-lime-50 p-4">
+                <p className="text-sm font-semibold text-lime-800">Price</p>
+                <p className="mt-1 text-2xl font-bold text-lime-900">₹ {product.price.toLocaleString('en-IN')}</p>
+              </div>
+            )}
 
             <div className="mb-8 rounded-lg bg-gray-50 p-6">
               <h3 className="mb-4 text-lg font-bold">Specifications</h3>
