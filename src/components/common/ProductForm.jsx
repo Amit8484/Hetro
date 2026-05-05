@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { productService } from '../../services/apiService';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-
 // Reusable product form component.
 // Props:
 // - onSuccess(product): called after successful add
 // - onCancel(): optional cancel handler
 // - initial?: initial product object for editing (optional)
-// - useBackend?: boolean - if true, uses backend product API
 // - existingProducts?: optional list used to prefill form
-export default function ProductForm({ onSuccess, onCancel, initial = {}, useBackend = false, existingProducts = [] }) {
+export default function ProductForm({ onSuccess, onCancel, initial = {}, existingProducts = [] }) {
   const isEditMode = Boolean(initial && initial.id);
 
   const [form, setForm] = useState({
@@ -71,37 +68,11 @@ export default function ProductForm({ onSuccess, onCancel, initial = {}, useBack
     };
 
     try {
-      if (useBackend) {
-        // POST to backend API using configured base URL.
-        const apiUrl = isEditMode
-          ? `${API_BASE_URL}/api/products/${initial.id}`
-          : `${API_BASE_URL}/api/products`;
-        const res = await fetch(apiUrl, {
-          method: isEditMode ? 'PUT' : 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) {
-          let errMsg = res.statusText;
-          try {
-            const body = await res.json();
-            errMsg = body.message || JSON.stringify(body);
-          } catch (parseError) {
-            console.error('Failed to parse error response', parseError);
-          }
-          throw new Error(errMsg || `HTTP ${res.status}`);
-        }
-
-        const created = await res.json();
-        if (onSuccess) onSuccess(created);
-      } else {
-        // Default behaviour: use frontend demo store via productService
-        const saved = isEditMode
-          ? await productService.updateProduct(initial.id, payload)
-          : await productService.addProduct(payload);
-        if (onSuccess) onSuccess(saved);
-      }
+      // Use frontend mock store via productService
+      const saved = isEditMode
+        ? await productService.updateProduct(initial.id, payload)
+        : await productService.addProduct(payload);
+      if (onSuccess) onSuccess(saved);
     } catch (err) {
       console.error('Failed to save product', err);
       alert('Failed to save product: ' + (err && err.message ? err.message : 'Unknown error'));
