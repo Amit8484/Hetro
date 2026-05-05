@@ -58,6 +58,11 @@ export default function Products() {
       filtered = filtered.filter((p) => mapCategoryToGroup(p.category) === selectedCategory);
     }
 
+    // Keep any stale tractor entries with subcategory 'Implement' out of tractor filters.
+    if (selectedCategory === 'Tractors') {
+      filtered = filtered.filter((p) => p.subcategory !== 'Implement');
+    }
+
     // Filter by subcategory for categories that support it
     if ((selectedCategory === 'Tractors' || selectedCategory === 'Implements' || selectedCategory === 'Insurance') && selectedSubcategory) {
       filtered = filtered.filter((p) => p.subcategory === selectedSubcategory);
