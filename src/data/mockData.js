@@ -281,8 +281,8 @@ export const productsData = [
       '/images/products/rotavator/rotavator_page-0005.jpg'
     ],
     price: 135000,
-    category: 'Tractors',
-    subcategory: 'Implement',
+    category: 'Implements',
+    subcategory: 'Rotavator',
     description: 'Paddy Special Rotary Tiller — a lightweight puddling rotary tiller efficient for preparing seedbeds in paddy. Improves incorporation of weeds and residues, includes adjustable skid to protect against mud, and offers higher productivity with lower fuel consumption.',
     specifications: {
       workingWidthMM: 1650,

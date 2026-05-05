@@ -8,10 +8,7 @@ const STORAGE_KEYS = {
 const DEMO_USERS = {};
 
 const cloneData = (value) => JSON.parse(JSON.stringify(value));
-const sanitizeProduct = (product) => {
-  const { price: _removedPrice, ...rest } = product || {};
-  return rest;
-};
+const sanitizeProduct = (product) => product || {};
 
 const readCollection = (key, fallback) => {
   const raw = localStorage.getItem(key);
@@ -58,12 +55,14 @@ const ensureProductSeedCoverage = () => {
     const hasMissingGallery = seedImages.length > 0 && existingImages.length === 0;
     const hasStaleGallery = seedImages.length > 0 && JSON.stringify(existingImages) !== JSON.stringify(seedImages);
     const hasStaleCover = existingImage !== String(seedProduct.image || '').trim();
+    const hasPriceMismatch = (existingProduct.price ?? null) !== (seedProduct.price ?? null);
 
-    if (hasMissingImage || hasExternalImage || hasMissingGallery || hasStaleGallery || hasStaleCover) {
+    if (hasMissingImage || hasExternalImage || hasMissingGallery || hasStaleGallery || hasStaleCover || hasPriceMismatch) {
       return {
         ...existingProduct,
         image: seedProduct.image,
-        images: seedProduct.images
+        images: seedProduct.images,
+        price: seedProduct.price
       };
     }
 
@@ -74,7 +73,7 @@ const ensureProductSeedCoverage = () => {
     syncedProducts.length !== currentProducts.length ||
     syncedProducts.some((product) => {
       const current = currentProducts.find((p) => p.id === product.id);
-      return !current || current.image !== product.image;
+      return !current || current.image !== product.image || (current.price ?? null) !== (product.price ?? null);
     });
 
   if (needsSync) {

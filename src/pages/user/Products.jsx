@@ -15,13 +15,17 @@ export default function Products() {
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get('search') || '');
   const showProductForm = false;
 
-  const categories = ['Tractors', 'Parts', 'Insurance'];
-  const tractorSubcategories = ['John Deere', 'Implement', 'Old Tractor', 'Other'];
+  const categories = ['Tractors', 'Implements', 'Parts', 'Insurance'];
+  const tractorSubcategories = ['John Deere', 'Old Tractor', 'Other'];
+  const implementSubcategories = ['Rotavator', 'Other'];
   const insuranceSubcategories = ['Tractor', 'Car/Bike', 'Health', 'Gift Item'];
 
   const mapCategoryToGroup = (category) => {
     if (['Compact', 'Mid-Range', 'Professional', 'Budget', 'Tractors'].includes(category)) {
       return 'Tractors';
+    }
+    if (category === 'Implements') {
+      return 'Implements';
     }
     if (category === 'Parts') {
       return 'Parts';
@@ -36,6 +40,9 @@ export default function Products() {
   const getAvailableSubcategories = () => {
     if (selectedCategory === 'Tractors') {
       return tractorSubcategories;
+    }
+    if (selectedCategory === 'Implements') {
+      return implementSubcategories;
     }
     if (selectedCategory === 'Insurance') {
       return insuranceSubcategories;
@@ -52,7 +59,7 @@ export default function Products() {
     }
 
     // Filter by subcategory for categories that support it
-    if ((selectedCategory === 'Tractors' || selectedCategory === 'Insurance') && selectedSubcategory) {
+    if ((selectedCategory === 'Tractors' || selectedCategory === 'Implements' || selectedCategory === 'Insurance') && selectedSubcategory) {
       filtered = filtered.filter((p) => p.subcategory === selectedSubcategory);
     }
 
@@ -121,17 +128,17 @@ export default function Products() {
             </div>
 
             {/* Subcategory Filter */}
-            {(selectedCategory === 'Tractors' || selectedCategory === 'Insurance') && getAvailableSubcategories().length > 0 && (
+            {(selectedCategory === 'Tractors' || selectedCategory === 'Implements' || selectedCategory === 'Insurance') && getAvailableSubcategories().length > 0 && (
               <div className="mb-6 bg-white border border-gray-200 rounded-lg shadow-sm p-4">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  {selectedCategory === 'Insurance' ? 'Insurance Type' : 'Tractor Type'}
+                  {selectedCategory === 'Insurance' ? 'Insurance Type' : selectedCategory === 'Implements' ? 'Implement Type' : 'Tractor Type'}
                 </label>
                 <select
                   value={selectedSubcategory}
                   onChange={(e) => setSelectedSubcategory(e.target.value)}
                   className="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-lime-700"
                 >
-                  <option value="">{selectedCategory === 'Insurance' ? 'All Insurance' : 'All Tractors'}</option>
+                  <option value="">{selectedCategory === 'Insurance' ? 'All Insurance' : selectedCategory === 'Implements' ? 'All Implements' : 'All Tractors'}</option>
                   {getAvailableSubcategories().map((subcategory) => (
                     <option key={subcategory} value={subcategory}>{subcategory}</option>
                   ))}

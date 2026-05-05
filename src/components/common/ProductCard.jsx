@@ -4,6 +4,8 @@ export default function ProductCard({ product }) {
   const productImage = product.image || '/images/hero-bg.avif';
   const categoryLabel = ['Compact', 'Mid-Range', 'Professional', 'Budget', 'Tractors'].includes(product.category)
     ? 'Tractors'
+    : product.category === 'Implements'
+      ? 'Implements'
     : product.category;
   const specEntries = Object.entries(product.specifications || {})
     .filter(([, value]) => value !== undefined && value !== null && value !== '')
@@ -27,6 +29,20 @@ export default function ProductCard({ product }) {
         <h3 className="mb-2 text-lg font-bold text-gray-900">{product.name}</h3>
 
         <p className="mb-3 line-clamp-2 text-sm text-gray-600">{product.description}</p>
+
+        <div className="mb-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+          {product.price ? (
+            <>
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Price</p>
+              <p className="text-base font-bold text-lime-700">₹ {product.price.toLocaleString('en-IN')}</p>
+            </>
+          ) : (
+            <>
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Pricing</p>
+              <p className="text-sm font-semibold text-gray-900">Pricing available on request</p>
+            </>
+          )}
+        </div>
 
         <div className="mb-3 space-y-1 text-xs text-gray-600">
           {specEntries.length > 0 ? (
