@@ -1,0 +1,17 @@
+# Exclude docs and local notes from Vercel upload
+*.md
+
+# Exclude local development/temporary folders
+New folder/
+
+# Exclude backend code for frontend-only deployment
+server/
+
+# Exclude local env variants not needed in Vercel source upload
+.env.local
+.env.development.local
+.env.test.local
+
+# Exclude generated folders
+dist/
+coverage/
