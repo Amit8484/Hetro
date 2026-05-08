@@ -17,7 +17,7 @@ export default function Products() {
 
   const categories = ['Tractors', 'Implements', 'Parts', 'Insurance'];
   const tractorSubcategories = ['John Deere', 'Old Tractor', 'Other'];
-  const implementSubcategories = ['Rotavator', 'Other'];
+  const implementSubcategories = ['Rotavator', 'Potato Planter', 'Other'];
   const insuranceSubcategories = ['Tractor', 'Car/Bike', 'Health', 'Gift Item'];
 
   const mapCategoryToGroup = (category) => {

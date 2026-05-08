@@ -296,6 +296,39 @@ export const productsData = [
       gearBoxPosition: 'Offset-100 mm',
       suitableTractors: '5036 D, 5039 D, 5042 D, 5045 D, 5050 D, 5105, 5205, 5305 D, 5050 E'
     }
+  },
+  {
+    id: 38,
+    name: 'Potato Planter',
+    image: 'https://www.deere.co.in/assets/images/region-1/products/implements/potato_planter_with_tractor_small_8b5898bd8c935f74775d19b29504b625a3cb76d6.jpg',
+    images: [
+      'https://www.deere.co.in/assets/images/region-1/products/implements/potato_planter_with_tractor_small_8b5898bd8c935f74775d19b29504b625a3cb76d6.jpg'
+    ],
+    category: 'Implements',
+    subcategory: 'Potato Planter',
+    description: 'GreenSystem Potato Planter available in Small Planter (PP8002) and Large Planter (PP8012) variants for efficient potato sowing with consistent row formation and fertilizer placement.',
+    specifications: {
+      model1: 'GreenSystem Small Planter (PP8002)',
+      model1_totalLxWxH_WithRidgingBodyMM: '2250 x 2000 x 1675 (24"-26"), 2250 x 2300 x 1675 (30"-32")',
+      model1_noOfRows: '02 (24"-26"), 02 (30"-32")',
+      model1_tractorHPRequired: '45 HP+ (MFWD)',
+      model1_tractorLiftCapacityRequiredKGS: '1800 Kgs',
+      model1_3PointLinkageCategory: 'CAT-II',
+      model1_potatoBunkerCapacityKGS: '240 Kgs',
+      model1_fertilizerCapacityKGS: '80 Kgs',
+      model1_totalWeightApprox_WithEmptyBunkerKGS: '750 Kgs (24"-26"), 800 Kgs (30"-32")',
+      model1_totalLoadedWeightKGS: '1070 Kgs',
+      model2: 'GreenSystem Large Planter (PP8012)',
+      model2_totalLxWxH_WithRidgingBodyMM: '2600 x 2300 x 1675',
+      model2_noOfRows: '02 (24"-32" Row to Row)',
+      model2_tractorHPRequired: '50 HP+ (MFWD)',
+      model2_tractorLiftCapacityRequiredKGS: '2500 Kgs',
+      model2_3PointLinkageCategory: 'CAT-II',
+      model2_potatoBunkerCapacityKGS: '400 Kgs',
+      model2_fertilizerCapacityKGS: '80 Kgs',
+      model2_totalWeightApproxKGS: '880 Kgs',
+      model2_totalLoadedWeightKGS: '1360 Kgs'
+    }
   }
 ];
 

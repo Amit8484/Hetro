@@ -56,13 +56,36 @@ const ensureProductSeedCoverage = () => {
     const hasStaleGallery = seedImages.length > 0 && JSON.stringify(existingImages) !== JSON.stringify(seedImages);
     const hasStaleCover = existingImage !== String(seedProduct.image || '').trim();
     const hasPriceMismatch = (existingProduct.price ?? null) !== (seedProduct.price ?? null);
+    const hasNameMismatch = String(existingProduct.name || '') !== String(seedProduct.name || '');
+    const hasCategoryMismatch = String(existingProduct.category || '') !== String(seedProduct.category || '');
+    const hasSubcategoryMismatch = String(existingProduct.subcategory || '') !== String(seedProduct.subcategory || '');
+    const hasDescriptionMismatch = String(existingProduct.description || '') !== String(seedProduct.description || '');
+    const hasSpecificationMismatch =
+      JSON.stringify(existingProduct.specifications || {}) !== JSON.stringify(seedProduct.specifications || {});
 
-    if (hasMissingImage || hasExternalImage || hasMissingGallery || hasStaleGallery || hasStaleCover || hasPriceMismatch) {
+    if (
+      hasMissingImage ||
+      hasExternalImage ||
+      hasMissingGallery ||
+      hasStaleGallery ||
+      hasStaleCover ||
+      hasPriceMismatch ||
+      hasNameMismatch ||
+      hasCategoryMismatch ||
+      hasSubcategoryMismatch ||
+      hasDescriptionMismatch ||
+      hasSpecificationMismatch
+    ) {
       return {
         ...existingProduct,
+        name: seedProduct.name,
+        category: seedProduct.category,
+        subcategory: seedProduct.subcategory,
+        description: seedProduct.description,
         image: seedProduct.image,
         images: seedProduct.images,
-        price: seedProduct.price
+        price: seedProduct.price,
+        specifications: seedProduct.specifications
       };
     }
 
@@ -73,7 +96,17 @@ const ensureProductSeedCoverage = () => {
     syncedProducts.length !== currentProducts.length ||
     syncedProducts.some((product) => {
       const current = currentProducts.find((p) => p.id === product.id);
-      return !current || current.image !== product.image || (current.price ?? null) !== (product.price ?? null);
+      return (
+        !current ||
+        current.name !== product.name ||
+        current.category !== product.category ||
+        current.subcategory !== product.subcategory ||
+        current.description !== product.description ||
+        current.image !== product.image ||
+        JSON.stringify(current.images || []) !== JSON.stringify(product.images || []) ||
+        (current.price ?? null) !== (product.price ?? null) ||
+        JSON.stringify(current.specifications || {}) !== JSON.stringify(product.specifications || {})
+      );
     });
 
   if (needsSync) {

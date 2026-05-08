@@ -1,9 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, AlertCircle, Loader } from 'lucide-react';
+import { ArrowLeft, Loader } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 import Footer from '../../components/common/Footer';
 import { productService } from '../../services/apiService';
+
+const POTATO_PLANTER_SPEC_LABELS = {
+  totalLxWxH_WithRidgingBodyMM: 'Total LxWxH (With Ridging body) - mm',
+  noOfRows: 'No. of Rows',
+  tractorHPRequired: 'Tractor HP Required',
+  tractorLiftCapacityRequiredKGS: 'Tractor Lift Capacity Required',
+  '3PointLinkageCategory': '3 Point Linkage Category',
+  potatoBunkerCapacityKGS: 'Potato Bunker Capacity',
+  fertilizerCapacityKGS: 'Fertilizer Capacity',
+  totalWeightApprox_WithEmptyBunkerKGS: 'Total Weight approx. (With empty Bunker)',
+  totalWeightApproxKGS: 'Total Weight approx.',
+  totalLoadedWeightKGS: 'Total Loaded Weight'
+};
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -68,8 +81,27 @@ export default function ProductDetails() {
     ? product.images
     : [product.image || '/images/hero-bg.avif'];
   const productImage = activeImage || productImages[0];
+  const isPotatoPlanter = product.subcategory === 'Potato Planter';
   const specEntries = Object.entries(product.specifications || {})
     .filter(([, value]) => value !== undefined && value !== null && value !== '');
+
+  const buildPotatoModelSpecs = (prefix) => {
+    const specs = product.specifications || {};
+    return Object.entries(specs)
+      .filter(([key, value]) => key.startsWith(`${prefix}_`) && value !== undefined && value !== null && value !== '')
+      .map(([key, value]) => {
+        const suffix = key.replace(`${prefix}_`, '');
+        return {
+          label: POTATO_PLANTER_SPEC_LABELS[suffix] || suffix.replace(/_/g, ' '),
+          value: String(value)
+        };
+      });
+  };
+
+  const model1Title = product.specifications?.model1;
+  const model2Title = product.specifications?.model2;
+  const model1Specs = buildPotatoModelSpecs('model1');
+  const model2Specs = buildPotatoModelSpecs('model2');
   
 
   return (
@@ -136,7 +168,37 @@ export default function ProductDetails() {
 
             <div className="mb-8 rounded-lg bg-gray-50 p-6">
               <h3 className="mb-4 text-lg font-bold">Specifications</h3>
-              {specEntries.length > 0 ? (
+              {isPotatoPlanter && (model1Specs.length > 0 || model2Specs.length > 0) ? (
+                <div className="space-y-6">
+                  {model1Specs.length > 0 && (
+                    <div className="rounded-lg border border-gray-200 bg-white p-4">
+                      <h4 className="mb-3 text-base font-bold text-lime-700">{model1Title || 'Model 1'}</h4>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {model1Specs.map((item) => (
+                          <div key={`m1-${item.label}`}>
+                            <p className="text-sm text-gray-600">{item.label}</p>
+                            <p className="text-base font-semibold text-gray-900">{item.value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {model2Specs.length > 0 && (
+                    <div className="rounded-lg border border-gray-200 bg-white p-4">
+                      <h4 className="mb-3 text-base font-bold text-lime-700">{model2Title || 'Model 2'}</h4>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {model2Specs.map((item) => (
+                          <div key={`m2-${item.label}`}>
+                            <p className="text-sm text-gray-600">{item.label}</p>
+                            <p className="text-base font-semibold text-gray-900">{item.value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : specEntries.length > 0 ? (
                 <div className="grid grid-cols-2 gap-4">
                   {specEntries.map(([key, value]) => (
                     <div key={key}>
