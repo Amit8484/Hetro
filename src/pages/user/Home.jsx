@@ -24,6 +24,7 @@ export default function Home() {
   });
 
   const [offerImageIndex, setOfferImageIndex] = useState(0);
+  const isFifthOfferImage = offerImageIndex === 4;
 
   useEffect(() => {
     const targetDate = new Date();
@@ -134,7 +135,7 @@ export default function Home() {
                     <img
                       src={rotavatorProduct.images?.[offerImageIndex] || rotavatorProduct.image || '/images/products/rotavator/rotavator_page-0001.jpg'}
                       alt={rotavatorProduct.name}
-                      className="h-[440px] md:h-[500px] lg:h-[560px] w-[115%] max-w-none rounded-2xl object-contain object-center drop-shadow-[0_22px_40px_rgba(0,0,0,0.24)]"
+                      className={`h-[440px] md:h-[500px] lg:h-[560px] w-[115%] max-w-none rounded-2xl object-center mix-blend-multiply drop-shadow-[0_22px_40px_rgba(0,0,0,0.24)] ${isFifthOfferImage ? 'object-contain' : 'object-cover'}`}
                     />
 
                     {/* Fireworks / crackers animation overlay */}
