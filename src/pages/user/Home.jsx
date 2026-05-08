@@ -81,6 +81,8 @@ export default function Home() {
                     Limited Time Offer
                   </div>
 
+                  {/* left-side floating sparks removed - using firecracker bursts only */}
+
                   <div className="mt-4 text-2xl md:text-3xl lg:text-4xl font-extrabold text-amber-800 leading-tight">
                     Subsidy Available
                   </div>
@@ -128,11 +130,29 @@ export default function Home() {
                 <div className="relative min-h-[320px] bg-gradient-to-br from-slate-900 via-emerald-900 to-lime-900 p-6 md:p-8 flex items-center justify-center lg:rounded-r-3xl rounded-b-3xl">
                   <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_top_left,_rgba(163,230,53,0.55),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.18),_transparent_28%)] pointer-events-none"></div>
                   <div className="w-full max-w-md flex flex-col items-center">
+                    
                     <img
                       src={rotavatorProduct.images?.[offerImageIndex] || rotavatorProduct.image || '/images/products/rotavator/rotavator_page-0001.jpg'}
                       alt={rotavatorProduct.name}
                       className="h-[320px] w-full rounded-2xl object-contain object-center"
                     />
+
+                    {/* Fireworks / crackers animation overlay */}
+                    <div aria-hidden className="pointer-events-none absolute inset-0 flex items-start justify-center">
+                      <div className="relative w-full h-full">
+                        {[...Array(6)].map((_, i) => (
+                          <div
+                            key={i}
+                            className={`firework firework-${i}`}
+                            style={{ animationDelay: `${i * 0.4}s` }}
+                          >
+                            {[...Array(8)].map((__, j) => (
+                              <span key={j} className={`spark spark-${j}`} style={{ animationDelay: `${(i * 0.4 + j * 0.05).toFixed(2)}s` }} />
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
 
                     {rotavatorProduct.images && rotavatorProduct.images.length > 1 && (
                       <div className="flex gap-3 mt-4 items-center justify-center w-full">
@@ -166,6 +186,29 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900">Featured Products</h3>
+            <p className="text-sm text-gray-600 mt-2">Hand-picked equipment and implements you might be interested in.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              to="/products"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-lime-600 to-lime-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform"
+            >
+              View All Products <ArrowRight size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <section className="relative text-white py-16 md:py-32 fade-in overflow-hidden w-full m-0">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-emerald-950 to-slate-950 opacity-95"></div>

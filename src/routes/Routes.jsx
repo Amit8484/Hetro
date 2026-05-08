@@ -1,4 +1,5 @@
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // User Pages
 import Home from '../pages/user/Home';
@@ -13,6 +14,7 @@ import AdminPortal from '../pages/admin/AdminPortal';
 export default function AppRoutes() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* User Routes */}
         <Route path="/" element={<Home />} />
@@ -29,4 +31,20 @@ export default function AppRoutes() {
       </Routes>
     </Router>
   );
+}
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  // Scroll to top on route change (including hash changes)
+  // Uses instant behavior to avoid janky transitions.
+  useEffect(() => {
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    } catch (e) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+
+  return null;
 }
