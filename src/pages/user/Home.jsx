@@ -127,14 +127,14 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="relative min-h-[320px] bg-gradient-to-br from-slate-900 via-emerald-900 to-lime-900 p-6 md:p-8 flex items-center justify-center lg:rounded-r-3xl rounded-b-3xl">
-                  <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_top_left,_rgba(163,230,53,0.55),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.18),_transparent_28%)] pointer-events-none"></div>
-                  <div className="w-full max-w-md flex flex-col items-center">
+                <div className="relative min-h-[320px] bg-gradient-to-br from-lime-600 via-emerald-600 to-green-700 p-4 md:p-6 lg:p-8 flex items-center justify-center lg:rounded-r-3xl rounded-b-3xl overflow-hidden">
+                  <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.24),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.18),_transparent_28%)] pointer-events-none"></div>
+                  <div className="w-full max-w-none flex flex-col items-center relative z-10">
                     
                     <img
                       src={rotavatorProduct.images?.[offerImageIndex] || rotavatorProduct.image || '/images/products/rotavator/rotavator_page-0001.jpg'}
                       alt={rotavatorProduct.name}
-                      className="h-[320px] w-full rounded-2xl object-contain object-center"
+                      className="h-[440px] md:h-[500px] lg:h-[560px] w-[115%] max-w-none rounded-2xl object-contain object-center drop-shadow-[0_22px_40px_rgba(0,0,0,0.24)]"
                     />
 
                     {/* Fireworks / crackers animation overlay */}
