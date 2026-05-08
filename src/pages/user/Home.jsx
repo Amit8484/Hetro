@@ -71,7 +71,10 @@ export default function Home() {
       {rotavatorProduct && (
         <section className="py-10 md:py-14 bg-white">
           <div className="container mx-auto px-4">
-            <div className="overflow-hidden rounded-3xl border border-amber-200 bg-transparent shadow-2xl">
+            <div className="relative overflow-hidden rounded-3xl border border-amber-200 bg-transparent shadow-2xl">
+              {/* decorative blurred blobs */}
+              <div className="pointer-events-none absolute -left-40 -top-32 w-80 h-80 blob-1 rounded-full opacity-40"></div>
+              <div className="pointer-events-none absolute -right-40 -bottom-28 w-80 h-80 blob-2 rounded-full opacity-30"></div>
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-amber-50 lg:rounded-l-3xl rounded-t-3xl">
                   <div className="inline-flex w-fit items-center gap-2 rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-800">
@@ -114,8 +117,9 @@ export default function Home() {
                   <div className="mt-8 flex flex-col sm:flex-row gap-4">
                     <Link
                       to={`/products/${rotavatorProduct.id}`}
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-lime-600 px-6 py-3 font-bold text-white transition-transform hover:scale-105 hover:bg-lime-700"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-lime-600 px-6 py-3 font-bold text-white transition-transform hover:scale-105 hover:bg-lime-700 creative-cta relative overflow-hidden"
                     >
+                      <span className="absolute left-0 top-0 h-full w-0 bg-white/10 creative-cta-stripe"></span>
                       View Offer <ArrowRight size={20} />
                     </Link>
                   </div>
@@ -168,6 +172,7 @@ export default function Home() {
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-0 left-0 w-96 h-96 bg-lime-400 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-400 rounded-full blur-3xl"></div>
+          <div className="absolute left-1/2 top-12 -translate-x-1/2 w-56 h-56 blob-3 rounded-full opacity-20"></div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
