@@ -36,6 +36,47 @@ export default function Home() {
     <>
       <Navbar />
 
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="overflow-hidden rounded-3xl bg-slate-900 shadow-2xl lg:grid lg:grid-cols-2">
+            <div className="flex flex-col justify-center p-8 md:p-12 text-white">
+              <span className="inline-flex w-fit items-center rounded-full bg-sky-500/20 px-4 py-2 text-sm font-bold text-sky-200 ring-1 ring-sky-300/40">
+                Trusted farm equipment
+              </span>
+              <h1 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">
+                Reliable machines for every field.
+              </h1>
+              <p className="mt-4 max-w-xl text-base text-slate-200 md:text-lg">
+                Discover premium tractors, tillers, and farm solutions built for performance, productivity, and long-term value.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <Link
+                  to="/products"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-3 font-bold text-white transition-all hover:bg-sky-400"
+                >
+                  Explore Products <ArrowRight size={18} />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-6 py-3 font-bold text-white transition-all hover:bg-white/10"
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative min-h-[300px] p-4 md:p-6">
+              <img
+                src="/images/2038e-tractor.avif"
+                alt="Tractor on farm"
+                className="h-full w-full rounded-2xl object-cover shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
