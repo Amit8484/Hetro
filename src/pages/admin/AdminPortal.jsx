@@ -12,7 +12,7 @@ export default function AdminPortal() {
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/80 shadow-2xl backdrop-blur p-6 md:p-8">
         <h1 className="text-2xl md:text-3xl font-bold text-center">Admin Login</h1>
-        <p className="text-slate-300 text-sm text-center mt-2">Enter your email and password to continue.</p>
+        <p className="text-slate-300 text-sm text-center mt-2">Only admin users can log in here.</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
