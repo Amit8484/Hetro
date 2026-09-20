@@ -51,7 +51,7 @@ export default function Home() {
           <div className="mt-8 text-center">
             <Link
               to="/products"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-lime-600 to-lime-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-600 to-blue-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform"
             >
               View All Products <ArrowRight size={18} />
             </Link>
@@ -60,10 +60,10 @@ export default function Home() {
       </section>
 
       <section className="relative text-white py-16 md:py-32 fade-in overflow-hidden w-full m-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-emerald-950 to-slate-950 opacity-95"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950 to-sky-950 opacity-95"></div>
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-lime-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-400 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-96 h-96 bg-sky-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
           <div className="absolute left-1/2 top-12 -translate-x-1/2 w-56 h-56 blob-3 rounded-full opacity-20"></div>
         </div>
 
@@ -71,7 +71,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div className="max-w-2xl">
               <h2 className="text-4xl md:text-5xl font-black mb-6 slide-in-down leading-tight tracking-tight text-white drop-shadow-xl">
-                Your <span className="text-lime-300 drop-shadow-2xl">Complete</span> Business Partner
+                Your <span className="text-sky-300 drop-shadow-2xl">Complete</span> Business Partner
               </h2>
               <p className="text-base md:text-lg mb-8 text-white slide-up leading-relaxed font-light drop-shadow-lg">
                 Premium John Deere tractors, advanced equipment, genuine spare parts, and expert maintenance services crafted for your success.
@@ -80,13 +80,13 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 slide-up mb-10">
                 <Link
                   to="/products"
-                  className="group bg-gradient-to-r from-lime-400 to-lime-300 hover:from-lime-300 hover:to-lime-200 text-slate-900 px-8 py-4 rounded-xl font-bold flex items-center gap-2 transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-lg text-base md:text-lg"
+                  className="group bg-gradient-to-r from-sky-400 to-blue-300 hover:from-sky-300 hover:to-blue-200 text-slate-900 px-8 py-4 rounded-xl font-bold flex items-center gap-2 transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-lg text-base md:text-lg"
                 >
                   Explore Products <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   to="/contact"
-                  className="group border-2 border-lime-400 hover:bg-lime-400/30 text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:scale-110 hover:shadow-2xl backdrop-blur-sm text-base md:text-lg"
+                  className="group border-2 border-sky-400 hover:bg-sky-400/30 text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:scale-110 hover:shadow-2xl backdrop-blur-sm text-base md:text-lg"
                 >
                   Contact Us
                 </Link>
@@ -94,15 +94,15 @@ export default function Home() {
 
               <div className="flex flex-wrap gap-6 slide-up text-sm md:text-base">
                 <div className="flex items-center gap-3 bg-white/15 px-4 py-3 rounded-lg backdrop-blur-sm border border-white/30">
-                  <Star className="w-5 h-5 text-lime-300 fill-lime-300 flex-shrink-0" />
+                  <Star className="w-5 h-5 text-sky-300 fill-sky-300 flex-shrink-0" />
                   <span className="font-semibold text-white">Trusted by 1000+</span>
                 </div>
                 <div className="flex items-center gap-3 bg-white/15 px-4 py-3 rounded-lg backdrop-blur-sm border border-white/30">
-                  <CheckCircle className="w-5 h-5 text-lime-300 fill-lime-300 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-sky-300 fill-sky-300 flex-shrink-0" />
                   <span className="font-semibold text-white">5+ Years Experience</span>
                 </div>
                 <div className="flex items-center gap-3 bg-white/15 px-4 py-3 rounded-lg backdrop-blur-sm border border-white/30">
-                  <Shield className="w-5 h-5 text-lime-300 fill-lime-300 flex-shrink-0" />
+                  <Shield className="w-5 h-5 text-sky-300 fill-sky-300 flex-shrink-0" />
                   <span className="font-semibold text-white">100% Genuine</span>
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function Home() {
             <div className="grid gap-4">
               {promoStats.map((item) => (
                 <div key={item.title} className="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-md shadow-xl">
-                  <div className="text-lime-300 mb-3">{item.icon}</div>
+                  <div className="text-sky-300 mb-3">{item.icon}</div>
                   <h3 className="text-lg font-bold text-white">{item.title}</h3>
                   <p className="mt-2 text-sm text-slate-200">{item.desc}</p>
                 </div>
@@ -134,7 +134,7 @@ export default function Home() {
                 className="group bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:-translate-y-3 transition-all duration-300 slide-up stagger-item border border-slate-600 hover:border-lime-400"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-lime-400 mb-6 group-hover:scale-125 transition-transform duration-300 inline-block p-4 bg-lime-400/10 rounded-xl">
+                <div className="text-sky-400 mb-6 group-hover:scale-125 transition-transform duration-300 inline-block p-4 bg-sky-400/10 rounded-xl">
                   {feature.icon}
                 </div>
                 <h3 className="text-lg font-bold mb-4 text-white">{feature.title}</h3>
@@ -217,7 +217,7 @@ export default function Home() {
         <div className="text-center">
           <Link
             to="/products"
-            className="group inline-flex items-center gap-3 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-700 hover:to-lime-600 text-white px-10 py-5 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-lg"
+            className="group inline-flex items-center gap-3 bg-gradient-to-r from-sky-600 to-blue-500 hover:from-sky-700 hover:to-blue-600 text-white px-10 py-5 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-lg"
           >
             View All Products <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -242,17 +242,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-lime-600 via-lime-600 to-emerald-700 text-white py-24 md:py-32 fade-in relative overflow-hidden">
-        <div className="absolute -right-40 -top-40 w-80 h-80 bg-lime-500 rounded-full opacity-25 blur-3xl"></div>
+      <section className="bg-gradient-to-br from-sky-700 via-blue-700 to-indigo-800 text-white py-24 md:py-32 fade-in relative overflow-hidden">
+        <div className="absolute -right-40 -top-40 w-80 h-80 bg-sky-400 rounded-full opacity-25 blur-3xl"></div>
         <div className="absolute -left-40 -bottom-40 w-80 h-80 bg-emerald-500 rounded-full opacity-25 blur-3xl"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-black mb-8 slide-in-down leading-tight">Ready to Transform Your Business?</h2>
-          <p className="text-base md:text-lg text-lime-100 mb-12 max-w-3xl mx-auto slide-up leading-relaxed font-light">
+          <p className="text-base md:text-lg text-sky-100 mb-12 max-w-3xl mx-auto slide-up leading-relaxed font-light">
             Join thousands of successful farmers who trust Heteroway.com for quality equipment, tailored guidance, and exceptional service
           </p>
           <Link
             to="/contact"
-            className="group inline-flex items-center gap-3 bg-white text-lime-600 hover:bg-lime-50 px-12 py-6 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-lg"
+            className="group inline-flex items-center gap-3 bg-white text-sky-700 hover:bg-sky-50 px-12 py-6 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-lg"
           >
             Get Expert Consultation <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
           </Link>
