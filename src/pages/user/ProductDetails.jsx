@@ -156,7 +156,7 @@ export default function ProductDetails() {
               {product.price ? (
                 <>
                   <p className="text-sm font-semibold text-lime-800">Price</p>
-                  <p className="mt-1 text-2xl font-bold text-lime-900">₹ {product.price.toLocaleString('en-IN')}</p>
+                  <p className="mt-1 text-2xl font-bold text-lime-900">{product.priceDisplay || `₹ ${product.price.toLocaleString('en-IN')}`}</p>
                 </>
               ) : (
                 <>

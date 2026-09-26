@@ -304,6 +304,8 @@ export const productsData = [
     images: [
       'https://www.deere.co.in/assets/images/region-1/products/implements/potato_planter_with_tractor_small_8b5898bd8c935f74775d19b29504b625a3cb76d6.jpg'
     ],
+    price: 285000,
+    priceDisplay: '₹ 2.85 lakhs onwards',
     category: 'Implements',
     subcategory: 'Potato Planter',
     description: 'GreenSystem Potato Planter available in Small Planter (PP8002) and Large Planter (PP8012) variants for efficient potato sowing with consistent row formation and fertilizer placement.',

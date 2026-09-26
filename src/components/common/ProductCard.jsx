@@ -34,7 +34,7 @@ export default function ProductCard({ product }) {
           {product.price ? (
             <>
               <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Price</p>
-              <p className="text-base font-bold text-lime-700">₹ {product.price.toLocaleString('en-IN')}</p>
+              <p className="text-base font-bold text-lime-700">{product.priceDisplay || `₹ ${product.price.toLocaleString('en-IN')}`}</p>
             </>
           ) : (
             <>

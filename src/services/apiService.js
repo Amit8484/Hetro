@@ -56,6 +56,7 @@ const ensureProductSeedCoverage = () => {
     const hasStaleGallery = seedImages.length > 0 && JSON.stringify(existingImages) !== JSON.stringify(seedImages);
     const hasStaleCover = existingImage !== String(seedProduct.image || '').trim();
     const hasPriceMismatch = (existingProduct.price ?? null) !== (seedProduct.price ?? null);
+    const hasPriceDisplayMismatch = (existingProduct.priceDisplay ?? null) !== (seedProduct.priceDisplay ?? null);
     const hasNameMismatch = String(existingProduct.name || '') !== String(seedProduct.name || '');
     const hasCategoryMismatch = String(existingProduct.category || '') !== String(seedProduct.category || '');
     const hasSubcategoryMismatch = String(existingProduct.subcategory || '') !== String(seedProduct.subcategory || '');
@@ -70,6 +71,7 @@ const ensureProductSeedCoverage = () => {
       hasStaleGallery ||
       hasStaleCover ||
       hasPriceMismatch ||
+      hasPriceDisplayMismatch ||
       hasNameMismatch ||
       hasCategoryMismatch ||
       hasSubcategoryMismatch ||
@@ -85,6 +87,7 @@ const ensureProductSeedCoverage = () => {
         image: seedProduct.image,
         images: seedProduct.images,
         price: seedProduct.price,
+        priceDisplay: seedProduct.priceDisplay,
         specifications: seedProduct.specifications
       };
     }
@@ -105,6 +108,7 @@ const ensureProductSeedCoverage = () => {
         current.image !== product.image ||
         JSON.stringify(current.images || []) !== JSON.stringify(product.images || []) ||
         (current.price ?? null) !== (product.price ?? null) ||
+        (current.priceDisplay ?? null) !== (product.priceDisplay ?? null) ||
         JSON.stringify(current.specifications || {}) !== JSON.stringify(product.specifications || {})
       );
     });
